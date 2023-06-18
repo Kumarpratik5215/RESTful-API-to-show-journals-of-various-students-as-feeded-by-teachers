@@ -10,6 +10,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 import jakarta.servlet.Filter;
 
 import com.springrest.springrest.security.JwtAuthenticationEntryPoint;
+import com.springrest.springrest.security.JwtAuthenticationFilter;
 
 @Configuration
 public class SecurityConfig {
@@ -18,7 +19,7 @@ public class SecurityConfig {
     @Autowired
     private JwtAuthenticationEntryPoint point;
     @Autowired
-    private JwtAuthenticationEntryPoint filter;
+    private JwtAuthenticationFilter filter;
     
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http)throws Exception {
@@ -28,7 +29,7 @@ public class SecurityConfig {
         .authorizeHttpRequests(
         		auth->
         			auth.requestMatchers("/home/**")
-        			.authenticated().requestMatchers("/auth/login").permitAll()
+        			.authenticated().requestMatchers("/login").permitAll()
         			.anyRequest().authenticated())
              .exceptionHandling(ex -> ex.authenticationEntryPoint(point))
          .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
